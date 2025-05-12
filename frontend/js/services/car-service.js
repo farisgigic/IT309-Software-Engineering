@@ -7,6 +7,7 @@ var CarService = {
                 { data: "manufacturer" },
                 { data: "model" },
                 { data: "year" },
+                { data: "mileage" },
                 { data: "engine" },
                 {
                     data: "actions",
@@ -39,4 +40,15 @@ var CarService = {
             );
         }
     },
+    open_edit_car_modal: function (car_id) {
+        RestClient.get("cars/car/" + car_id, function (data) {
+            $("#edit-car-modal").modal("toggle");
+            $("#edit-car-form input[name='id']").val(data.id);
+            $("#edit-car-form input[name='manufacturer']").val(data.manufacturer);
+            $("#edit-car-form input[name='model']").val(data.model);
+            $("#edit-car-form input[name='year']").val(data.year);
+            $("#edit-car-form input[name='mileage']").val(data.mileage);
+            $("#edit-car-form input[name='engine']").val(data.engine);
+        });
+    }
 }

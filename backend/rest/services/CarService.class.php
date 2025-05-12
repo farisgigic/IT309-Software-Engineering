@@ -12,7 +12,7 @@ class CarService extends BaseService
     public function getCarById($car_id)
     {
 
-        $car = $this->carDao->get_by_id($car_id);
+        $car = $this->carDao->get_car_by_id($car_id);
         if (!$car) {
             throw new Exception("Car with ID $car_id does not exist.");
         }
@@ -35,11 +35,11 @@ class CarService extends BaseService
 
     public function editCar($car_id, $car)
     {
-        $existingID = $this->carDao->get_by_id($car_id);
+        $existingID = $this->carDao->get_car_by_id($car_id);
         if (!$existingID) {
             throw new Exception("Car with this ID does not exist.");
         }
-        return $this->dao->update($car_id, $car);
+        return $this->carDao->editCar($car_id, $car);
     }
 
     public function get_cars_paginated($user_id, $offset, $limit, $search, $order_column, $order_direction)
@@ -51,7 +51,7 @@ class CarService extends BaseService
         foreach ($rows as $id => $car) {
             $rows[$id]['number'] = $no++;
             $rows[$id]['actions'] = '<div class="btn-group" role="group">' .
-                ' <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-car-modal">Edit</button> ' .
+                ' <button type="button" class="btn btn-warning" onclick="CarService.open_edit_car_modal(' . $car['id'] . ')">Edit</button> ' .
                 ' <button type="button" class="btn btn-outline-danger" onclick="CarService.delete_car(' . $car['id'] . ')">Delete</button> ' .
                 '</div>';
         }

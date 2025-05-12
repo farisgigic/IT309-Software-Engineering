@@ -30,7 +30,7 @@ class CarDao extends BaseDao
     public function get_cars_paginated($user_id, $offset, $limit, $search, $order_column, $order_direction)
     {
         $query =
-            "   SELECT c.id, c.manufacturer, c.model, c.year, c.engine, c.user_id
+            "   SELECT c.id, c.manufacturer, c.model, c.year, c.mileage,  c.engine, c.user_id
                 FROM cars c
                 JOIN users u ON c.user_id = u.id
                 WHERE (LOWER(c.manufacturer) LIKE CONCAT('%', :search, '%') OR 
@@ -68,5 +68,28 @@ class CarDao extends BaseDao
         $query = "DELETE FROM cars WHERE id = :id";
         $stmt = $this->connection->prepare($query);
         $stmt->bindParam(':id', $id);
+    }
+
+    public function get_car_by_id($id)
+    {
+        $query = "SELECT * FROM cars WHERE id = :id";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    public function editCar($id, $car)
+    {
+        $query = "UPDATE cars SET manufacturer = :manufacturer, model = :model, year = :year, mileage = :mileage, 
+                    engine = :engine WHERE id = :id";
+        $this->execute($query, [
+            'manufacturer' => $car['manufacturer'],
+            'model' => $car['model'],
+            'year' => $car['year'],
+            'mileage' => $car['mileage'],
+            'engine' => $car['engine'],
+            'id' => $id
+        ]);
     }
 }

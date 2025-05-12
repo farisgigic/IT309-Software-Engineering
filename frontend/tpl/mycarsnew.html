@@ -40,6 +40,7 @@
                     <th data-name="manufacturer">Manufacturer</th>
                     <th data-name="model">Model</th>
                     <th data-name="year">Year</th>
+                    <th data-name="mileage">Mileage</th>
                     <th data-name="engine">Engine</th>
                     <th data-name="actions">Actions</th>
 
@@ -81,6 +82,10 @@
                   <input type="text" class="form-control" name="year" id="year" />
                 </div>
                 <div class="mb-3">
+                  <label for="Model" class="col-form-label">Mileage:</label>
+                  <input type="text" class="form-control" name="mileage" id="mileage" />
+                </div>
+                <div class="mb-3">
                   <label for="Model" class="col-form-label">Engine:</label>
                   <input type="text" class="form-control" name="engine" id="engine" />
                 </div>
@@ -99,6 +104,7 @@
     <script src="js/main.js"></script>
     <script src="js/datatables.min.js"></script>
     <script src="js/auth_cars.js"></script>
+    <script src="js/services/car-service.js"></script>
 
     <script>
       const user99 = Utils.get_from_localstorage("user");
