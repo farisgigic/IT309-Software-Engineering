@@ -30,7 +30,7 @@ class CarDao extends BaseDao
     public function get_cars_paginated($user_id, $offset, $limit, $search, $order_column, $order_direction)
     {
         $query =
-            "   SELECT c.manufacturer, c.model, c.year, c.engine, c.user_id
+            "   SELECT c.id, c.manufacturer, c.model, c.year, c.engine, c.user_id
                 FROM cars c
                 JOIN users u ON c.user_id = u.id
                 WHERE (LOWER(c.manufacturer) LIKE CONCAT('%', :search, '%') OR 
@@ -61,5 +61,12 @@ class CarDao extends BaseDao
         $stmt->bindParam(':tires', $car['tires']);
         $stmt->bindParam(':user_id', $car['user_id']);
         return $stmt->execute();
+    }
+
+    public function delete_car($id)
+    {
+        $query = "DELETE FROM cars WHERE id = :id";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':id', $id);
     }
 }

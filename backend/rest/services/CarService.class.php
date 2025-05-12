@@ -30,11 +30,7 @@ class CarService extends BaseService
     }
     public function deleteCar($car_id)
     {
-        $existingCar = $this->carDao->get_by_id($car_id);
-        if (!$existingCar) {
-            throw new Exception("Car with this ID does not exist.");
-        }
-        return $this->dao->delete($car_id);
+        return $this->carDao->delete_car($car_id);
     }
 
     public function editCar($car_id, $car)
@@ -56,7 +52,7 @@ class CarService extends BaseService
             $rows[$id]['number'] = $no++;
             $rows[$id]['actions'] = '<div class="btn-group" role="group">' .
                 ' <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-car-modal">Edit</button> ' .
-                ' <button type="button" class="btn btn-outline-danger">Delete</button> ' .
+                ' <button type="button" class="btn btn-outline-danger" onclick="CarService.delete_car(' . $car['id'] . ')">Delete</button> ' .
                 '</div>';
         }
 
