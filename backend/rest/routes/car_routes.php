@@ -129,9 +129,15 @@ Flight::group("/cars", function () {
      */
 
     Flight::route("POST /add_car", function () {
-        Flight::auth_middleware()->authorizeRole(Roles::USER);
+        // Get the logged-in user
+        $user = Flight::get("user");
 
+        // Get data from the request
         $data = Flight::request()->data->getData();
+
+        // Override user_id with the one from the session
+        $data['user_id'] = $user->id;
+
         try {
             $car = Flight::get("carService")->addCar($data);
             Flight::json(["message" => "Car successfully added.", "data" => $data], 200);
@@ -139,6 +145,7 @@ Flight::group("/cars", function () {
             Flight::json(["error" => $e->getMessage()], 500);
         }
     });
+
 
     /**
      * @OA\Delete(

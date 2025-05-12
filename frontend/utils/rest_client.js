@@ -1,48 +1,42 @@
 var RestClient = {
     get: function (url, callback, error_callback) {
         $.ajax({
-            url: "http://localhost/intro-to-web-2025/backend/" + url,
+            url: Constants.API_BASE_URL + url,
             type: "GET",
             beforeSend: function (xhr) {
-                console.log(Utils.get_from_localstorage("user").token);
-                if (Utils.get_from_localstorage("user")) {
-                    xhr.setRequestHeader(
-                        "Authentication",
-                        Utils.get_from_localstorage("user").token
-
-                    );
+                const user = Utils.get_from_localstorage("user");
+                if (user && user.token) {
+                    xhr.setRequestHeader("Authentication", user.token);
                 }
             },
             success: function (response) {
                 if (callback) callback(response);
             },
-            error: function (jqXHR, textStatus, errorThrown) {
+            error: function (jqXHR) {
                 if (error_callback) error_callback(jqXHR);
             },
         });
     },
     request: function (url, method, data, callback, error_callback) {
         $.ajax({
-            url: "http://localhost/intro-to-web-2025/backend/" + url,
+            url: Constants.API_BASE_URL + url,
             type: method,
             data: data,
             beforeSend: function (xhr) {
-                if (Utils.get_from_localstorage("user")) {
-                    xhr.setRequestHeader(
-                        "Authentication",
-                        Utils.get_from_localstorage("user").token
-                    );
+                const user = Utils.get_from_localstorage("user");
+                if (user && user.token) {
+                    xhr.setRequestHeader("Authentication", user.token);
                 }
             },
         })
-            .done(function (response, status, jqXHR) {
+            .done(function (response) {
                 if (callback) callback(response);
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            .fail(function (jqXHR) {
                 if (error_callback) {
                     error_callback(jqXHR);
                 } else {
-                    toastr.error(jqXHR.responseJSON.message);
+                    toastr.error(jqXHR.responseJSON?.message || "An error occurred");
                 }
             });
     },

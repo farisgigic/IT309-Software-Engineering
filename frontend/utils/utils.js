@@ -18,7 +18,7 @@ var Utils = {
 
     logout: function () {
         window.localStorage.clear();
-        window.location = "login";
+        window.location = "landing";
     },
 
     block_ui: function (element) {

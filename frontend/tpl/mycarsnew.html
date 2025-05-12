@@ -48,6 +48,13 @@
                         </table>
                     </div>
                     </div>
+                    <div class="add-new-car">
+                      <a href="#add_new_car">
+                          <button class="add-btn" style="float: right;">
+                              <i class="fa fa-plus"></i> Add new car
+                          </button>
+                      </a>
+                  </div>
                 </div>
             </div>
             <div
@@ -119,9 +126,10 @@
         </main>
     <script src="js/main.js"></script>
     <script src="js/datatables.min.js"></script>
+    
     <script>
-        const user = Utils.get_from_localstorage("user");
-          //console.log(user);
+        const user99 = Utils.get_from_localstorage("user");
+        console.log(user99);
         CarService.reload_cars_datatable();
     </script>
 </body>

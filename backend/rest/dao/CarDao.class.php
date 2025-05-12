@@ -45,4 +45,21 @@ class CarDao extends BaseDao
             "user_id" => $user_id
         ]);
     }
+    public function add_car($car)
+    {
+        $query = "INSERT INTO cars (manufacturer, model, year, mileage, engine, fuel_type, drivetrain, transmission, tires, user_id) 
+                  VALUES (:manufacturer, :model, :year, :mileage, :engine, :fuel_type, :drivetrain, :transmission, :tires, :user_id)";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':manufacturer', $car['manufacturer']);
+        $stmt->bindParam(':model', $car['model']);
+        $stmt->bindParam(':year', $car['year']);
+        $stmt->bindParam(':mileage', $car['mileage']);
+        $stmt->bindParam(':engine', $car['engine']);
+        $stmt->bindParam(':fuel_type', $car['fuel_type']);
+        $stmt->bindParam(':drivetrain', $car['drivetrain']);
+        $stmt->bindParam(':transmission', $car['transmission']);
+        $stmt->bindParam(':tires', $car['tires']);
+        $stmt->bindParam(':user_id', $car['user_id']);
+        return $stmt->execute();
+    }
 }
