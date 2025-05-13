@@ -104,7 +104,7 @@ Flight::group("/users", function () {
      * )
      */
     Flight::route('POST /add_user', function () {
-        Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
+        //Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
         $data = Flight::request()->data->getData();
 
         // Validate email format
