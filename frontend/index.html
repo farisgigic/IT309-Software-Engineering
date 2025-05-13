@@ -111,6 +111,7 @@
         <section id="car" data-load="car.html"></section>
         <section id="cars" data-load="mycarsnew.html"></section>
         <section id="admin" data-load="admin.html"></section>
+        <section id="myprofile" data-load="myprofile.html"></section>
     </main>
 
 
@@ -240,7 +241,6 @@
         
      </script> -->
     <script>
-        const authItem = document.getElementById("auth-item");
         const new_user = Utils.get_from_localstorage("user");
 
         if (new_user) {
@@ -273,6 +273,36 @@
             }
         }
     </script>
+    <script>
+    // Simulate a login check (replace with actual logic)
+    const loggedInUser = JSON.parse(localStorage.getItem('user')); // Example: { name: "Emina" }
+
+    const authItem = document.getElementById('auth-item');
+    const userNameSpan = document.getElementById('user-name');
+
+    if (loggedInUser) {
+        // If user is logged in
+        const fullName = `${user.first_name} ${user.last_name}`;
+        userNameSpan.textContent = fullName || "User";
+        authItem.innerHTML = `
+            <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
+            <a class="dropdown-item" href="#myprofile">My Profile</a>
+        `;
+
+        // Handle logout
+        document.getElementById('logout-btn').addEventListener('click', function () {
+            localStorage.removeItem('user');
+            location.reload();
+        });
+    } else {
+        // If user is not logged in
+        userNameSpan.textContent = "Guest";
+        authItem.innerHTML = `
+            <a class="dropdown-item" href="login/index.html">Login</a>
+            <a class="dropdown-item" href="#register">Register</a>
+        `;
+    }
+</script>
     <script src="js/services/car-service.js"></script>
     <script src="js/services/user-service.js"></script>
     <script src="js/contact_form_checker.js"></script>

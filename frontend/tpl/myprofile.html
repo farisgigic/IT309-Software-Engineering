@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="css/datatables.min.css" type="text/css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/myprofile.css">
+</head>
+
+<body>
+  <!-- Breadcrumb Section Begin -->
+  <div class="breadcrumb-option" style="background-image: url('img/breadcrumb-bg.jpg'); background-size: cover; background-position: center;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="breadcrumb__text">
+            <h2>My Profile</h2>
+            <div class="breadcrumb__links">
+              <a href="#landing"><i class="fa fa-home" style="color: #0D9FF2;"></i> Home</a>
+              <span>My Profile</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Breadcrumb Section End -->
+
+  <!-- Profile Section Begin -->
+  <section class="profile spad">
+    <div class="container">
+      <div class="row">
+        <!-- Profile Image -->
+        <div class="col-lg-4 text-center">
+          <div class="profile__image">
+            <h4 class="mt-3" id="full_name"></h4>
+            <p id="email"></p>
+          </div>
+        </div>
+
+        <!-- Profile Details -->
+        <div class="col-lg-8">
+          <div class="profile__details">
+            <h4>Account Information <hr></h4>
+            <div class="profile__info">
+              <p><strong>Full Name:</strong> <span id="full_name_detail"></span></p>
+              <p><strong>Email:</strong> <span id="email_detail"></span></p>
+              <p><strong>Username:</strong> <span id="username"></span></p>
+              <p><strong>Birth Date:</strong> <span id="birth_date"></span></p>
+              <p><strong>Address:</strong> <span id="address"></span></p>
+              <p><strong>City:</strong> <span id="city"></span></p>
+              <p><strong>ZIP Code:</strong> <span id="zip_code"></span></p>
+              <p><strong>Role:</strong> <span id="role"></span></p>
+            </div>
+            <a class="primary-btn mt-3" id="editProfileBtn">Edit Profile</a>
+            <a href="#logout" class="primary-btn logout-btn mt-3">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Edit User Modal -->
+<div id="editUserModal" class="modal hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-[500px]">
+    <h2 class="text-xl font-bold mb-4">Edit User</h2>
+    <form id="editUserForm">
+      <input type="hidden" id="editUserId" name="id" />
+
+      <div class="mb-3">
+        <label class="block mb-1">First Name</label>
+        <input type="text" id="editFirstName" name="first_name" class="w-full border px-3 py-2 rounded" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="block mb-1">Last Name</label>
+        <input type="text" id="editLastName" name="last_name" class="w-full border px-3 py-2 rounded" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="block mb-1">Email</label>
+        <input type="email" id="editEmail" name="email" class="w-full border px-3 py-2 rounded" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="block mb-1">Username</label>
+        <input type="text" id="editUsername" name="username" class="w-full border px-3 py-2 rounded" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="block mb-1">City</label>
+        <input type="text" id="editCity" name="city" class="w-full border px-3 py-2 rounded">
+      </div>
+
+      <div class="flex justify-end">
+        <button type="button" id="cancelEditBtn" class="mr-2 bg-gray-300 px-4 py-2 rounded">Cancel</button>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <!-- Profile Section End -->
+
+  <!-- Script to populate profile -->
+  <script>
+    // Get the user data from localStorage
+    const userData = JSON.parse(localStorage.getItem("user"));
+
+    // If the data exists, populate the fields
+    if (userData) {
+      const fullName = `${userData.first_name || ''} ${userData.last_name || ''}`;
+      document.getElementById("full_name").textContent = fullName;
+      document.getElementById("full_name_detail").textContent = fullName;
+      document.getElementById("email").textContent = userData.email || '';
+      document.getElementById("email_detail").textContent = userData.email || '';
+      document.getElementById("username").textContent = userData.username || '';
+      document.getElementById("birth_date").textContent = userData.birth_date || '';
+      document.getElementById("address").textContent = userData.address || '';
+      document.getElementById("city").textContent = userData.city || '';
+      document.getElementById("zip_code").textContent = userData.zip_code || '';
+      document.getElementById("role").textContent = userData.role || '';
+    }
+  </script>
+  <script>
+  // Open modal and populate form
+  function openEditModal(user) {
+    document.getElementById("editUserModal").classList.remove("hidden");
+    document.getElementById("editUserId").value = user.id;
+    document.getElementById("editFirstName").value = user.first_name;
+    document.getElementById("editLastName").value = user.last_name;
+    document.getElementById("editEmail").value = user.email;
+    document.getElementById("editUsername").value = user.username;
+    document.getElementById("editCity").value = user.city;
+  }
+
+  // Open the modal when "Edit Profile" is clicked
+  document.getElementById("editProfileBtn").addEventListener("click", function () {
+  document.getElementById("editUserModal").classList.add("show");
+  console.log("Edit Profile button clicked");
+  const userData = JSON.parse(localStorage.getItem("user"));
+  if (userData) {
+    openEditModal(userData);
+  }
+});
+
+  // Close modal
+  document.getElementById("cancelEditBtn").addEventListener("click", function () {
+    document.getElementById("editUserModal").classList.add("hidden");
+  });
+
+  // Submit form
+  document.getElementById("editUserForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const id = document.getElementById("editUserId").value;
+    const token = localStorage.getItem("token");
+
+    console.log(token);
+    const updatedUser = {
+      first_name: document.getElementById("editFirstName").value,
+      last_name: document.getElementById("editLastName").value,
+      email: document.getElementById("editEmail").value,
+      username: document.getElementById("editUsername").value,
+      city: document.getElementById("editCity").value
+    };
+
+    fetch(`http://localhost/SE/IT309-Software-Engineering/backend/users/edit_user/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(updatedUser)
+    })
+      .then(response => response.json())
+      .then(data => {
+        alert("User updated!");
+        document.getElementById("editUserModal").classList.add("hidden");
+        // reload table or update row
+      })
+      .catch(error => {
+        console.error("Update failed:", error);
+        alert("Failed to update user.");
+      });
+  });
+</script>
+</body>
+</html>

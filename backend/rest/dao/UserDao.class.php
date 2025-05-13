@@ -82,4 +82,33 @@ class UserDao extends BaseDao
             'search' => $search
         ]);
     }
+
+    public function updateUser($id, $user)
+{
+    $query = "UPDATE users SET 
+              first_name = :first_name, 
+              last_name = :last_name, 
+              username = :username, 
+              email = :email, 
+              address = :address, 
+              city = :city, 
+              zip_code = :zip_code, 
+              birth_date = :birth_date 
+              WHERE id = :id";
+
+    $this->execute($query, [
+        ':first_name' => $user['first_name'] ?? null,
+        ':last_name' => $user['last_name'] ?? null,
+        ':username' => $user['username'] ?? null,
+        ':email' => $user['email'] ?? null,
+        ':address' => $user['address'] ?? null,
+        ':city' => $user['city'] ?? null,
+        ':zip_code' => $user['zip_code'] ?? null,
+        ':birth_date' => $user['birth_date'] ?? null,
+        ':id' => $id
+    ]);
+
+    return $this->get_by_id($id);
+}
+
 }

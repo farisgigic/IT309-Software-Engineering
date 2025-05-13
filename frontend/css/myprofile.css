@@ -1,0 +1,152 @@
+/* Reuse your existing theme styles, add this as new or append to your main.css */
+
+.profile__image img {
+    max-width: 180px;
+    border: 5px solid #0D9FF2;
+    padding: 5px;
+}
+
+.profile__image h4 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 15px;
+}
+
+.profile__details {
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+.profile__info p {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.primary-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: #0D9FF2;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.primary-btn:hover {
+    background-color: #0b8cd8;
+}
+
+.logout-btn {
+    background-color: #e74c3c;
+    margin-left: 10px;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Modal Background and Container */
+#editUserModal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensure the modal is on top */
+}
+
+/* Modal Content */
+#editUserModal .bg-white {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal Header */
+#editUserModal h2 {
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Form Elements */
+#editUserModal input[type="text"],
+#editUserModal input[type="email"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#editUserModal input[type="text"]:focus,
+#editUserModal input[type="email"]:focus {
+    border-color: #0D9FF2;
+    outline: none;
+}
+
+/* Buttons */
+#editUserModal .primary-btn,
+#editUserModal .bg-gray-300 {
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 15px;
+}
+
+#editUserModal .primary-btn {
+    background-color: #0D9FF2;
+    color: white;
+}
+
+#editUserModal .primary-btn:hover {
+    background-color: #0b8cd8;
+}
+
+#editUserModal .bg-gray-300 {
+    background-color: #ccc;
+    color: #333;
+}
+
+#editUserModal .bg-gray-300:hover {
+    background-color: #999;
+}
+
+/* Close Modal Button (Optional) */
+#editUserModal .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+}
+
+#editUserModal .close-btn:hover {
+    color: #0D9FF2;
+}
+
+/* Show Modal */
+#editUserModal.show {
+    display: flex;
+}
+
+#editUserModal.hidden {
+    display: none;
+}
+
