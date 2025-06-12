@@ -1,33 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>CarCare </title>
-        <link rel="icon" type="image/x-icon" href="../img/logo-f.png">
-        <link rel="stylesheet" href="../css/login.css" type="text/css">
-        <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="../css/toastr.min.css" type="text/css">
-        
-    </head>
-<body>    
+
+<head>
+    <meta charset="UTF-8">
+    <title>CarCare </title>
+    <link rel="icon" type="image/x-icon" href="../img/logo-f.png">
+    <link rel="stylesheet" href="../css/login.css" type="text/css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/toastr.min.css" type="text/css">
+
+</head>
+
+<body>
     <!-- Form Section Begin -->
     <section class="form-section">
         <div class="container">
-            <div id ="login_container" class="login_container" style= "margin-top: 150px;">
-                <form id="login_form" >
-                    <div class ="mb-3">
+            <div id="login_container" class="login_container" style="margin-top: 150px;">
+                <form id="login_form">
+                    <div class="mb-3">
                         <h4>Login</h4>
                     </div>
                     <div class="mb-3">
                         <div class="form-group col-md-12">
                             <label for="email">Email</label>
-                            <input type="text" class="form-control" name ="email" id="email" placeholder="Your Email">
+                            <input type="text" class="form-control" name="email" id="email" placeholder="Your Email">
                         </div>
                     </div>
                     <div class="mb-3">
                         <div class="form-group col-md-12">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Your Password">
+                            <input type="password" class="form-control" name="password" id="password"
+                                placeholder="Your Password">
                         </div>
                     </div>
                     <div class="col-12">
@@ -41,8 +44,9 @@
                     <div class="separator1"></div>
                     <div class="col-12">
                         <button class="btn btn-outline-info btn-block btn-custom" type="submit">
-                        <img src="../img/icons/icon-arrow-right 1.png" alt="Icon" style="width: 20px; height: 20px; margin-right: 5px;">
-                        Login</button>
+                            <img src="../img/icons/icon-arrow-right 1.png" alt="Icon"
+                                style="width: 20px; height: 20px; margin-right: 5px;">
+                            Login</button>
 
                     </div>
                     <div class="separator1"></div>
@@ -50,20 +54,21 @@
                         <span>or</span>
                     </div>
                     <div class="col-12">
-                        <a href="../tpl/signup.html">
+                        <a href="./signup.html">
                             <button class="btn btn-info btn-block btn-custom" type="button">
-                                <img src="../img/icons/signup.png" alt="Icon" style="width: 20px; height: 20px; margin-right: 5px;">
+                                <img src="../img/icons/signup.png" alt="Icon"
+                                    style="width: 20px; height: 20px; margin-right: 5px;">
                                 Register
                             </button>
                         </a>
                     </div>
-                    
+
                     <div class="separator1"></div>
                 </form>
             </div>
         </div>
     </section>
-<!-- Form Section End -->
+    <!-- Form Section End -->
 
     <script src="../js/jquery-3.7.1.js"></script>
     <script src="../js/toastr.min.js"></script>
@@ -73,35 +78,37 @@
     <script src="../js/bootstrap.min.js"></script>
     <!-- <script src="js/bootstrap.bundle.js"></script> -->
 
-   
 
-    <script src = "../js/form-validate.js"></script>
+
+    <script src="../js/form-validate.js"></script>
     <script src="../utils/constants.js"></script>
     <script src="../utils/rest_client.js"></script>
     <script src="../utils/utils.js"></script>
 
     <script>
         if (Utils.get_from_localstorage("user")) {
-          window.location = "../";
+            window.location = "../";
         }
-  
+
         FormValidation.validate("#login_form", {}, function (data) {
-        //   Utils.block_ui("#form-container");
-  
-        RestClient.post(
-  "auth/login",
-  data,
-  function (response) {
-    Utils.set_to_localstorage("user", response);
-    Utils.set_to_localstorage("token", response.token); 
-    window.location = "../";
-  },
-  function (xhr) {
-    toastr.error(xhr.responseText);
-  }
-);
+            //   Utils.block_ui("#form-container");
+
+            RestClient.post(
+                "auth/login",
+                data,
+                function (response) {
+                    Utils.set_to_localstorage("user", response);
+                    Utils.set_to_localstorage("token", response.token);
+                    window.location = "../";
+                    // console.log(response.token);
+                },
+                function (xhr) {
+                    toastr.error(xhr.responseText);
+                }
+            );
 
         });
-      </script>
+    </script>
 </body>
+
 </html>

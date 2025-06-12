@@ -11,6 +11,9 @@ Flight::group("/contacts", function () {
      *     path="/contacts/all",
      *     tags={"contacts"},
      *     summary="Get all contacts",
+     *     security={
+     *          {"ApiKey": {}}
+     *     },
      *     @OA\Response(
      *         response=200,
      *         description="List of all contacts"
@@ -18,6 +21,7 @@ Flight::group("/contacts", function () {
      * )
      */
     Flight::route("GET /all", function () {
+        Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
         $data = Flight::get("contactService")->getAllContacts();
         Flight::json($data, 200);
     });
@@ -25,6 +29,9 @@ Flight::group("/contacts", function () {
      * @OA\Get(
      *     path="/contacts/contact/{contact_id}",
      *     tags={"contacts"},
+     *     security={
+     *          {"ApiKey": {}}
+     *      },
      *     summary="Get contact by ID",
      *     @OA\Parameter(
      *         name="contact_id",
@@ -44,6 +51,7 @@ Flight::group("/contacts", function () {
      * )
      */
     Flight::route("GET /contact/@contact_id", function ($contact_id) {
+        Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
         try {
             $data = Flight::get("contactService")->getContactById($contact_id);
             Flight::json($data, 200);
@@ -56,6 +64,9 @@ Flight::group("/contacts", function () {
      *     path="/contacts/add_contact",
      *     tags={"contacts"},
      *     summary="Add a new contact",
+     *     security={
+     *          {"ApiKey": {}}
+     *     },
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -73,6 +84,7 @@ Flight::group("/contacts", function () {
      * )
      */
     Flight::route("POST /add_contact", function () {
+        Flight::auth_middleware()->authorizeRoles([Roles::ADMIN, Roles::USER]);
         $data = Flight::request()->data->getData();
         try {
             $contact = Flight::get("contactService")->addContact($data);
@@ -87,6 +99,9 @@ Flight::group("/contacts", function () {
      *     path="/contacts/delete_contact/{contact_id}",
      *     tags={"contacts"},
      *     summary="Delete contact by ID",
+     *     security={
+     *          {"ApiKey": {}}
+     *      },
      *     @OA\Parameter(
      *         name="contact_id",
      *         in="path",
@@ -101,6 +116,7 @@ Flight::group("/contacts", function () {
      * )
      */
     Flight::route("DELETE /delete_contact/@contact_id", function ($contact_id) {
+        Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
         try {
             Flight::get("contactService")->deleteContact($contact_id);
             Flight::json(["message" => "You have successfully deleted"], 200);
@@ -114,6 +130,9 @@ Flight::group("/contacts", function () {
      *     path="/contacts/edit_contact/{contact_id}",
      *     tags={"contacts"},
      *     summary="Edit an existing contact",
+     *     security={
+     *          {"ApiKey": {}}
+     *     },
      *     @OA\Parameter(
      *         name="contact_id",
      *         in="path",
@@ -138,6 +157,7 @@ Flight::group("/contacts", function () {
      * )
      */
     Flight::route("PUT /edit_contact/@contact_id", function ($contact_id) {
+        Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
         $data = Flight::request()->data->getData();
         try {
             $contact = Flight::get("contactService")->editContact($contact_id, $data);
@@ -145,5 +165,36 @@ Flight::group("/contacts", function () {
         } catch (Exception $e) {
             Flight::json(["error" => $e->getMessage()], 500);
         }
+    });
+
+    Flight::route("GET /all/admin", function () {
+        Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
+        $payload = Flight::request()->query;
+
+        $params = [
+            'start' => (int) $payload['start'],
+            'search' => $payload['search']['value'],
+            'draw' => $payload['draw'],
+            'limit' => (int) $payload['length'],
+            'order_column' => $payload['order'][0]['name'],
+            'order_direction' => $payload['order'][0]['dir'],
+        ];
+
+        $data = Flight::get('contactService')->get_contacts_paginated(
+            $params['start'],
+            $params['limit'],
+            $params['search'],
+            $params['order_column'],
+            $params['order_direction']
+        );
+        $response = [
+            'draw' => $params['draw'],
+            'data' => $data['data'],
+            'recordsFiltered' => $data['count'],
+            'recordsTotal' => $data['count'],
+            'end' => $data['count']
+        ];
+
+        Flight::json($response);
     });
 });

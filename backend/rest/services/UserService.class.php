@@ -35,7 +35,7 @@ class UserService extends BaseService
         }
         if (isset($user['email'])) {
             $existingUser = $this->dao->getUserByEmail($user['email']);
-            if ($existingUser && $existingUser['user_id'] != $id) {
+            if ($existingUser && $existingUser['id'] != $id) {
                 throw new Exception("Another user with this email already exists.");
             }
         }

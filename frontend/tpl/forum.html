@@ -1,0 +1,125 @@
+<body>
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-option set-bg" data-setbg="img/breadcrumb-bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Latest Forum</h2>
+                        <div class="breadcrumb__links">
+                            <a href="#landing"><i class="fa fa-home"></i> Home</a>
+                            <span>My Forum</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blog Section -->
+    <section class="blog spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form class="blog__sidebar__search">
+                        <input type="text" placeholder="Search discussions, topics, or users..." id="searchInput">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+                    <!-- Forum posts will be dynamically loaded here by your script -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        // Like button functionality - using event delegation for dynamically added buttons
+        $(document).on('click', '.likeBtn', function () {
+            const btn = $(this);
+            if (btn.hasClass('btn-outline-info')) {
+                btn.removeClass('btn-outline-info').addClass('btn-success').html('<i class="bi bi-hand-thumbs-up"></i> Liked');
+            } else {
+                btn.removeClass('btn-success').addClass('btn-outline-info').html('<i class="bi bi-hand-thumbs-up"></i> Like');
+            }
+        });
+
+        // Search functionality (you can integrate with your backend)
+        $('#searchInput').on('keyup', function () {
+            const searchTerm = $(this).val().toLowerCase();
+            // Add your search logic here to filter posts
+            // Example: filterPosts(searchTerm);
+        });
+
+        // Your forum data rendering function
+        const renderForumPosts = (postsArray) => {
+            if (!Array.isArray(postsArray)) {
+                console.error("Error: Expected an array but got", postsArray);
+                return;
+            }
+
+            let forumContainer = document.querySelector(".blog .row");
+            forumContainer.innerHTML = "";
+
+            postsArray.forEach((post) => {
+                let postHTML = `
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 25px;">
+                        <div class="blog__item">
+                            <div class="blog__item__text">
+                                <div class="post-meta">
+                                    <div class="post-time">${new Date(post.created_at).toLocaleDateString()}</div>
+                                </div>
+                                <h5><a href="#" style="text-decoration: none; color: inherit;">${post.title}</a></h5>
+                                <div class="post-content">
+                                    <p>${post.description}</p>
+                                </div>
+                                <div class="post-actions">
+                                    <div class="action-buttons">
+                                        <button class="btn btn-outline-info likeBtn" type="button">
+                                            <i class="bi bi-hand-thumbs-up"></i> Like
+                                        </button>
+                                        <button class="btn btn-outline-secondary" type="button">
+                                            <i class="fa fa-comment"></i> Comments (10)
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                forumContainer.innerHTML += postHTML;
+            });
+        };
+
+        // Your data fetching code
+        document.addEventListener("DOMContentLoaded", () => {
+            // Show loading state
+            let forumContainer = document.querySelector(".blog .row");
+            forumContainer.innerHTML = `
+                <div class="col-lg-12">
+                    <div class="loading-state">
+                        <i class="fa fa-spinner"></i>
+                        <p>Loading forum posts...</p>
+                    </div>
+                </div>
+            `;
+
+            RestClient.get("forums/all",
+                (data) => {
+                    renderForumPosts(data);
+                },
+                (error) => {
+                    console.error("Error fetching forum posts:", error);
+                    forumContainer.innerHTML = `
+                        <div class="col-lg-12">
+                            <div class="error-state">
+                                <i class="fa fa-exclamation-triangle"></i>
+                                <p>Error loading forum posts. Please try again later.</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            );
+        });
+    </script>
+</body>
