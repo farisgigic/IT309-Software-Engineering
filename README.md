@@ -1,7 +1,7 @@
 # 🚗 CarCare
 
 **Live Application Demo:**  
-🔗 [[https://intro-to-web-frontend-b3wd3.ondigitalocean.app](https://software-engineering-46ifz.ondigitalocean.app/)]
+🔗 https://software-engineering-46ifz.ondigitalocean.app/
 
 **CarCare** is a modern vehicle management application built to simplify car ownership and maintenance for all users—especially non-tech-savvy vehicle owners. This application allows users to add and manage one or more vehicles, track service history, receive timely maintenance reminders, and engage with a vehicle owners' community through a built-in forum.
 
