@@ -33,8 +33,14 @@ Flight::register("carMaintenanceService", "CarMaintenanceService");
 Flight::register("forumService", "ForumService");
 Flight::register("auth_middleware", "AuthMiddleware");
 
-
+header('Access-Control-Allow-Origin: https://software-engineering-46ifz.ondigitalocean.app');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authentication, X-Requested-With');
+header('Access-Control-Allow-Credentials: true');
 Flight::route('/*', function () {
+    if (Flight::request()->method == 'OPTIONS') {
+        Flight::halt(200);
+    }
     if (
         strpos(Flight::request()->url, '/auth/login') === 0 ||
         strpos(Flight::request()->url, '/users/add_user') === 0
