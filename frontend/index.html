@@ -236,24 +236,6 @@
 
     </script> -->
     <script>
-        const new_user = Utils.get_from_localstorage("user");
-
-        if (new_user) {
-            authItem.innerHTML = `
-        <a class="dropdown-item" href="#" onclick="Utils.logout()">
-            <img src="img/icons/login-icon.png" style="width: 16px; margin-right: 6px;">
-            Logout
-        </a>`;
-        } else {
-            authItem.innerHTML = `
-        <a class="dropdown-item" href="login/index.html">
-            <img src="img/icons/login-icon.png" style="width: 16px; margin-right: 6px;">
-            Login
-        </a>`;
-        }
-
-    </script>
-    <script>
         Utils.init_spapp();
     </script>
     <script>
@@ -309,6 +291,23 @@
             <a class="dropdown-item" href="login/signup.html">Register</a>
         `;
         }
+        const new_user = Utils.get_from_localstorage("user");
+
+        if (new_user) {
+            authItem.innerHTML = `
+        <a class="dropdown-item" href="#" onclick="Utils.logout()">
+            <img src="img/icons/login-icon.png" style="width: 16px; margin-right: 6px;">
+            Logout
+        </a>`;
+        } else {
+            authItem.innerHTML = `
+        <a class="dropdown-item" href="login/index.html">
+            <img src="img/icons/login-icon.png" style="width: 16px; margin-right: 6px;">
+            Login
+        </a>`;
+        }
+
+
     </script>
 
     <script src="js/services/car-service.js"></script>
