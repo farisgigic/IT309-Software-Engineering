@@ -7,7 +7,7 @@ var Constants = {
         if (location.hostname == "localhost") {
             return "http://localhost/SE/IT309-Software-Engineering/backend/";
         } else {
-            return "";
+            return "https://se-backend-t36mu.ondigitalocean.app/";
         }
     },
 };
