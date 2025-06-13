@@ -275,9 +275,6 @@
         const authItem = document.getElementById('auth-item');
         const userNameSpan = document.getElementById('user-name');
         if (loggedInUser && loggedInUser.role == "admin") {
-
-        }
-        if (loggedInUser && loggedInUser.role == "admin") {
             const fullName = `${user.first_name} ${user.last_name}`;
             userNameSpan.textContent = fullName || "User";
             authItem.innerHTML = `

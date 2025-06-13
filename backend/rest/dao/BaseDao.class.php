@@ -14,12 +14,13 @@ class BaseDao
         try {
 
             $this->connection = new PDO(
-                "mysql:host=" . Config::DB_HOST() . ";dbname=" . Config::DB_NAME() . ";port=" . Config::DB_PORT(),
+                "mysql:host=" . Config::DB_HOST() . ";dbname=" . Config::DB_NAME() . ";port=" . Config::DB_PORT() . ";charset=utf8mb4",
                 Config::DB_USER(),
                 Config::DB_PASSWORD(),
                 [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::MYSQL_ATTR_SSL_CA => __DIR__ . '/../../certs/ca-certificate.crt'
                 ]
             );
         } catch (PDOException $e) {
