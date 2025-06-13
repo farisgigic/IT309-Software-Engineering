@@ -223,92 +223,51 @@
 
     <script src="js/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const userData = localStorage.getItem('user');
-            const user = userData ? JSON.parse(userData) : null;
-            console.log(userData);
-            if (window.location.hash === '#admin' && user.role != 'admin') {
-                window.location.href = '/SE/IT309-Software-Engineering/frontend/#landing';
-            }
-        });
-
-
-    </script> -->
-    <script>
-        Utils.init_spapp();
-    </script>
     <script>
         const user = Utils.get_from_localstorage("user");
+        const authItem = document.getElementById('auth-item');
+        const userNameSpan = document.getElementById('user-name');
 
         if (user) {
             const fullName = `${user.first_name} ${user.last_name}`;
-            document.getElementById("user-name").textContent = fullName;
-            if (user.role === "admin") {
-                const dashboardItem = document.getElementById("dashboard-item");
-                dashboardItem.style.display = "block";
-            }
-        }
-    </script>
-    <script>
-        // Simulate a login check (replace with actual logic)
-        const loggedInUser = JSON.parse(localStorage.getItem('user')); // Example: { name: "Emina" }
+            userNameSpan.textContent = fullName;
 
-        const authItem = document.getElementById('auth-item');
-        const userNameSpan = document.getElementById('user-name');
-        if (loggedInUser && loggedInUser.role == "admin") {
-            const fullName = `${user.first_name} ${user.last_name}`;
-            userNameSpan.textContent = fullName || "User";
-            authItem.innerHTML = `
-            <a class="dropdown-item" href="#myprofile">My Profile</a>
-            <a class="dropdown-item" href="#admin">Dashboard</a>
-            <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
-             `;
-            document.getElementById('logout-btn').addEventListener('click', function () {
-                localStorage.removeItem('user');
-                location.reload();
-            });
-        }
-        else if (loggedInUser && loggedInUser.role == "user") {
-            // If user is logged in
-            const fullName = `${user.first_name} ${user.last_name}`;
-            userNameSpan.textContent = fullName || "User";
-            authItem.innerHTML = `
-            <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
+            let authHTML = `
             <a class="dropdown-item" href="#myprofile">My Profile</a>
         `;
 
-            // Handle logout
+            if (user.role === "admin") {
+                authHTML += `<a class="dropdown-item" href="#admin">Dashboard</a>`;
+            }
+
+            authHTML += `
+            <a class="dropdown-item" href="#" id="logout-btn">
+                <img src="img/icons/login-icon.png" style="width: 16px; margin-right: 6px;">
+                Logout
+            </a>
+        `;
+
+            authItem.innerHTML = authHTML;
+
             document.getElementById('logout-btn').addEventListener('click', function () {
                 localStorage.removeItem('user');
                 location.reload();
             });
         } else {
-            // If user is not logged in
             userNameSpan.textContent = "Guest";
             authItem.innerHTML = `
-            <a class="dropdown-item" href="login/index.html">Login</a>
-            <a class="dropdown-item" href="login/signup.html">Register</a>
+            <a class="dropdown-item" href="login/index.html">
+                <img src="img/icons/login-icon.png" style="width: 16px; margin-right: 6px;">
+                Login
+            </a>
+            <a class="dropdown-item" href="login/signup.html">
+                <img src="img/icons/login-icon.png" style="width: 16px; margin-right: 6px;">
+                Register
+            </a>
         `;
         }
-        const new_user = Utils.get_from_localstorage("user");
-
-        if (new_user) {
-            authItem.innerHTML = `
-        <a class="dropdown-item" href="#" onclick="Utils.logout()">
-            <img src="img/icons/login-icon.png" style="width: 16px; margin-right: 6px;">
-            Logout
-        </a>`;
-        } else {
-            authItem.innerHTML = `
-        <a class="dropdown-item" href="login/index.html">
-            <img src="img/icons/login-icon.png" style="width: 16px; margin-right: 6px;">
-            Login
-        </a>`;
-        }
-
-
     </script>
+
 
     <script src="js/services/car-service.js"></script>
     <script src="js/services/user-service.js"></script>
