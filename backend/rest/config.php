@@ -9,27 +9,31 @@ class Config
 {
     public static function DB_NAME()
     {
-        return 'defaultdb';
+        return Config::get_env('DB_NAME', 'se-2025');
     }
     public static function DB_PORT()
     {
-        return 25060;
+        return Config::get_env('DB_PORT', 3306);
     }
     public static function DB_USER()
     {
-        return 'doadmin';
+        return Config::get_env('DB_USER', 'root');
     }
     public static function DB_PASSWORD()
     {
-        return 'AVNS_swwLd_1Ok3hJd6s9fqj';
+        return Config::get_env('DB_PASSWORD', '');
     }
     public static function DB_HOST()
     {
-        return 'software-engineering-do-user-23012501-0.k.db.ondigitalocean.com';
+        return Config::get_env('DB_HOST', '127.0.0.1');
     }
     public static function JWT_SECRET()
     {
-        return 'farecare';
+        return Config::get_env('JWT_SECRET', '!123456789intro-to-web123456789!');
+    }
+
+    public static function get_env($name, $default)
+    {
+        return isset($_ENV[$name]) && trim($_ENV[$name]) !== '' ? $_ENV[$name] : $default;
     }
 }
-
