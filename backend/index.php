@@ -37,7 +37,7 @@ Flight::register("auth_middleware", "AuthMiddleware");
 Flight::route('/*', function () {
     if (
         strpos(Flight::request()->url, '/auth/login') === 0 ||
-        strpos(Flight::request()->url, '/auth/register') === 0
+        strpos(Flight::request()->url, '/users/add_user') === 0
     ) {
         return TRUE;
     } else {
@@ -58,6 +58,7 @@ require_once __DIR__ . "/rest/routes/forum_routes.php";
 require_once __DIR__ . "/rest/routes/user_routes.php";
 require_once __DIR__ . "/rest/routes/car_routes.php";
 require_once __DIR__ . "/rest/routes/contact_routes.php";
+require_once __DIR__ . "/rest/routes/comments_routes.php";
 
 
 
