@@ -197,123 +197,83 @@
     </div>
     <!-- Search End -->
 
-    <!-- Js Plugins -->
-
+    <!-- Core Libraries -->
     <script src="js/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/jquery.spapp.js"></script>
     <script src="js/jquery.validate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="js/jquery.nice-select.min.js"></script>
+    <!-- UI Plugins -->
     <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
     <script src="js/jquery.magnific-popup.min.js"></script>
     <script src="js/mixitup.min.js"></script>
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
-    <!-- <script src="js/fetch_forums.js"></script> -->
-    <script src="js/delete_forum.js"></script>
-
     <script src="js/datatables.min.js"></script>
 
-    <script src="js/form-validate.js"></script>
+    <!-- Utilities -->
     <script src="utils/constants.js"></script>
     <script src="utils/rest_client.js"></script>
     <script src="utils/utils.js"></script>
-
     <script src="js/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const userData = localStorage.getItem('user');
-            const user = userData ? JSON.parse(userData) : null;
-            console.log(userData);
-            if (window.location.hash === '#admin' && user.role != 'admin') {
-                window.location.href = '/SE/IT309-Software-Engineering/frontend/#landing';
-            }
-        });
 
-
-    </script> -->
+    <!-- SPApp Initialization -->
     <script>
         Utils.init_spapp();
     </script>
+
+    <!-- Auth / User Session Handling -->
     <script>
         const user = Utils.get_from_localstorage("user");
+        console.log("User from localStorage:", user);
+        const authItem = document.getElementById('auth-item');
+        const userNameSpan = document.getElementById('user-name');
 
         if (user) {
             const fullName = `${user.first_name} ${user.last_name}`;
-            document.getElementById("user-name").textContent = fullName;
+            userNameSpan.textContent = fullName;
+
             if (user.role === "admin") {
-                const dashboardItem = document.getElementById("dashboard-item");
-                dashboardItem.style.display = "block";
+                authItem.innerHTML = `
+                <a class="dropdown-item" href="#myprofile">My Profile</a>
+                <a class="dropdown-item" href="#admin">Dashboard</a>
+                <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
+            `;
+            } else {
+                authItem.innerHTML = `
+                <a class="dropdown-item" href="#myprofile">My Profile</a>
+                <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
+            `;
             }
-        }
-    </script>
-    <script>
-        // Simulate a login check (replace with actual logic)
-        const loggedInUser = JSON.parse(localStorage.getItem('user')); // Example: { name: "Emina" }
 
-        const authItem = document.getElementById('auth-item');
-        const userNameSpan = document.getElementById('user-name');
-        if (loggedInUser && loggedInUser.role == "admin") {
-            const fullName = `${user.first_name} ${user.last_name}`;
-            userNameSpan.textContent = fullName || "User";
-            authItem.innerHTML = `
-            <a class="dropdown-item" href="#myprofile">My Profile</a>
-            <a class="dropdown-item" href="#admin">Dashboard</a>
-            <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
-             `;
             document.getElementById('logout-btn').addEventListener('click', function () {
                 localStorage.removeItem('user');
                 location.reload();
             });
-        }
-        else if (loggedInUser && loggedInUser.role == "user") {
-            // If user is logged in
-            const fullName = `${user.first_name} ${user.last_name}`;
-            userNameSpan.textContent = fullName || "User";
-            authItem.innerHTML = `
-            <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
-            <a class="dropdown-item" href="#myprofile">My Profile</a>
-        `;
 
-            // Handle logout
-            document.getElementById('logout-btn').addEventListener('click', function () {
-                localStorage.removeItem('user');
-                location.reload();
-            });
         } else {
-            // If user is not logged in
             userNameSpan.textContent = "Guest";
             authItem.innerHTML = `
             <a class="dropdown-item" href="login/index.html">Login</a>
             <a class="dropdown-item" href="login/signup.html">Register</a>
         `;
         }
-        const new_user = Utils.get_from_localstorage("user");
-
-        if (new_user) {
-            authItem.innerHTML = `
-        <a class="dropdown-item" href="#" onclick="Utils.logout()">
-            <img src="img/icons/login-icon.png" style="width: 16px; margin-right: 6px;">
-            Logout
-        </a>`;
-        } else {
-            authItem.innerHTML = `
-        <a class="dropdown-item" href="login/index.html">
-            <img src="img/icons/login-icon.png" style="width: 16px; margin-right: 6px;">
-            Login
-        </a>`;
-        }
-
-
     </script>
 
+    <!-- Custom Services -->
     <script src="js/services/car-service.js"></script>
     <script src="js/services/user-service.js"></script>
-    <script src="js/contact_form_checker.js"></script>
     <script src="js/services_ajax.js"></script>
+
+    <!-- Other Functionality -->
+    <script src="js/form-validate.js"></script>
+    <script src="js/contact_form_checker.js"></script>
+    <script src="js/delete_forum.js"></script>
+    <!-- <script src="js/fetch_forums.js"></script> -->
+    <script src="js/main.js"></script>
+
 
 </body>
 

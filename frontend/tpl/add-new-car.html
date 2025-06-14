@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>CarCare</title>
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="css/addCar.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
     <section class="forum-section">
         <div class="container">
@@ -17,7 +19,8 @@
 
                     <div class="form-group">
                         <label for="manufacturer">Manufacturer</label>
-                        <input type="text" class="form-control" id="manufacturer" list="manfuacturers" name="manufacturer" placeholder="Enter Manufacturer">
+                        <input type="text" class="form-control" id="manufacturer" list="manfuacturers"
+                            name="manufacturer" placeholder="Enter Manufacturer">
                         <datalist id="manfuacturers"></datalist>
                     </div>
 
@@ -40,7 +43,15 @@
                         <label for="engine">Engine</label>
                         <input type="text" class="form-control" id="engine" name="engine" placeholder="Enter Engine">
                     </div>
-
+                    <div class="form-group">
+                        <label for="registered_until">Registration</label>
+                        <input type="date" class="form-control" id="registered_until" name="registered_until"
+                            placeholder="Date">
+                    </div>
+                    <div class="form-group">
+                        <label for="vin">VIN NUMBER</label>
+                        <input type="text" class="form-control" id="vin" name="vin" placeholder="Date">
+                    </div>
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="fuel_type">Fuel Type</label>
@@ -117,14 +128,16 @@
                     data,
                     function (response) {
                         toastr.success("You have successfully added the car.");
+                        window.location.href = "./";
                     },
                     function (xhr) {
-                        toastr.error("ne valja");
+                        toastr.error(xhr.responseText);
                     }
                 );
             });
         });
     </script>
-    
+
 </body>
+
 </html>
